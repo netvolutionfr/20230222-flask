@@ -2,10 +2,12 @@ import json
 from faker import Faker
 import requests
 from flask import Flask, jsonify
+from flask_cors import CORS
 
 app = Flask(__name__)
-
+CORS = CORS(app)
 fake = Faker(['fr_FR'])
+
 
 @app.route('/')
 def index():
@@ -34,6 +36,7 @@ def show_user_profile(username):
 NEWS_API_KEY = 'SECRET'
 NEWS_API_URL = 'https://newsapi.org/v2/'
 
+
 @app.route('/news')
 def get_news():
     response = requests.get(NEWS_API_URL + 'everything?q=python&from=2023-01-22&sortBy=publishedAt&apiKey=' + NEWS_API_KEY)
@@ -49,8 +52,10 @@ def get_news():
             'message': 'Error fetching news'
         })
 
+
 METEO_API_KEY = 'SECRET'
 METEO_API_URL = 'https://api.openweathermap.org/data/2.5/'
+
 
 @app.route('/meteo/<city>')
 def get_meteo(city):
